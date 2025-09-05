@@ -1,12 +1,17 @@
 import time
-import sqlite3
 from extract.get_price import get_price_bitcoin_df
+from transform.transform import transform_df
+from load.load import load_df
 
 while True:
-    dataframe = get_price_bitcoin_df()
-    print(dataframe)
+    # Extrair os dados
+    raw_df = get_price_bitcoin_df()
 
-    time.sleep(60)  # Espera por 60 segundos antes de buscar o preço novamente
+    # Transformar os dados
+    transformed_df = transform_df(raw_df)
     
-    conn = sqlite3.connect('bitcoin_prices.db')
-    dataframe.to_sql('prices', conn, if_exists='append', index=False)
+    # Carregar os dados
+    load_df(transformed_df)
+
+    print("Dados carregados com sucesso!")
+    time.sleep(10)  # Espera por 60 segundos antes de buscar o preço novamente
