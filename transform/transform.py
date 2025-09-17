@@ -5,7 +5,7 @@ def transform_df(df):
         df['horario'] = pd.to_datetime(df['horario']).dt.strftime('%d/%m/%Y %H:%M:%S')
     if 'preco' in df.columns:
         df['preco'] = [
-            "USD {:,.2f}".format(float(valor)).replace(",", "X").replace(".", ",").replace("X", ".")
+            "{:,.2f}".format(float(valor)).replace(",", "X").replace(".", ",").replace("X", ".")
             for valor in df['preco']
         ]
     return df
